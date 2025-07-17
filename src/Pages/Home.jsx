@@ -15,7 +15,7 @@ const Home = () => {
     <div>
       <Header></Header>
       <Categories></Categories>
-      <div className='divider py-28 '></div>
+      <div className='divider py-16 '></div>
       <Jobs></Jobs>
       <Testimonials></Testimonials>
       <Mencap></Mencap>

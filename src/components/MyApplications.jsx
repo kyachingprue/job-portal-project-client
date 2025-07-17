@@ -1,9 +1,44 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
+import Swal from 'sweetalert2';
 
 const MyApplications = () => {
   const { users } = useContext(AuthContext);
   const [jobs, setJobs] = useState([]);
+  console.log(jobs)
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/job-applications/${id}`, {
+          method: 'DELETE'
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
+
+              const remaining = jobs.filter(job => job.job_id !== id);
+              setJobs(remaining);
+            }
+
+          })
+
+      }
+    });
+  }
 
   useEffect(() => {
     fetch(`http://localhost:5000/job-applications?email=${users.email}`)
@@ -12,6 +47,7 @@ const MyApplications = () => {
         setJobs(data);
       })
   }, [users.email])
+
   return (
     <div>
       <h3 className='text-center py-4 text-4xl font-semibold'>My Application Data: {jobs.length} </h3>
@@ -56,7 +92,7 @@ const MyApplications = () => {
                   <span className="text-sm font-semibold text-gray-600">{job.applicant_email}</span>
                 </td>
                 <td>
-                  <button className="btn btn-ghost text-sm">cancel</button>
+                  <button onClick={() => handleDelete(job.job_id)} className="btn btn-outline text-sm">cancel</button>
                 </td>
               </tr>)
             }
