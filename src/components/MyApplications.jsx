@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const MyApplications = () => {
   const { users } = useContext(AuthContext);
   const [jobs, setJobs] = useState([]);
-  console.log(jobs)
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -41,16 +41,22 @@ const MyApplications = () => {
   }
 
   useEffect(() => {
-    fetch(`http://localhost:5000/job-applications?email=${users.email}`)
-      .then(res => res.json())
-      .then(data => {
-        setJobs(data);
+    // fetch(`http://localhost:5000/job-applications?email=${users.email}`)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     setJobs(data);
+    //   })
+
+    axios.get(`http://localhost:5000/job-applications?email=${users.email}`, { withCredentials: true })
+      .then(res => {
+        console.log(res.data);
+        setJobs(res.data);
       })
   }, [users.email])
 
   return (
     <div>
-      <h3 className='text-center py-4 text-4xl font-semibold'>My Application Data: {jobs.length} </h3>
+      <h3 className='text-center py-4 text-2xl md:text-4xl font-semibold'>My Application Data: {jobs.length} </h3>
       <div className="overflow-x-auto w-11/12 mx-auto my-5">
         <table className="table">
           {/* head */}
@@ -72,21 +78,21 @@ const MyApplications = () => {
                   {index + 1}
                 </th>
                 <td>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 md:gap-3">
                     <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
+                      <div className="mask mask-squircle w-8 object-cover md:w-12">
                         <img
                           src={job.company_logo}
                           alt="Avatar Tailwind CSS Component" />
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{job.company}</div>
+                      <div className="font-bold text-sm md:text-base">{job.company}</div>
                       <div className="text-sm opacity-50">{job.location}</div>
                     </div>
                   </div>
                 </td>
-                <td className='text-xl font-bold'>
+                <td className='text-sm md:text-xl font-bold'>
                   {job.title}
                   <br />
                   <span className="text-sm font-semibold text-gray-600">{job.applicant_email}</span>

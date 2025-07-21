@@ -19,10 +19,10 @@ const Testimonials = () => {
       })
   }, [])
   return (
-    <div className='bg-green-500/10'>
-      <div className='pt-20 text-center'>
-        <h3 className='text-3xl font-bold text-black'>Testimonials From Our Customers</h3>
-        <p className='text-gray-600 py-4'>Lorem ipsum dolor sit amet elit, sed do eiusmod tempor</p>
+    <div className='bg-green-500/10 px-2'>
+      <div className='pt-10 md:pt-20 text-center'>
+        <h3 className='text-xl md:text-3xl font-bold text-black'>Testimonials From Our Customers</h3>
+        <p className='text-gray-600 py-2 text-sm md:py-4'>Lorem ipsum dolor sit amet elit, sed do eiusmod tempor</p>
       </div>
       <div>
         <Swiper
@@ -36,14 +36,14 @@ const Testimonials = () => {
         >
           {
             users.map((user, index) => <SwiperSlide key={index}>
-              <div className='p-5 h-[324px] my-10 bg-white shadow rounded-xl'>
-                <h2 className='text-xl font-bold py-3 text-blue-600'>{user.title}</h2>
-                <p className='text-sm text-gray-600 py-2 pb-5'>{user.feedback}</p>
-                <div className='flex justify-start pt-6 items-center gap-3'>
-                  <img className='w-12 h-12 object-cover rounded-full' src={user.image} alt="" />
+              <div className='p-5 md:h-[324px] my-10 bg-white shadow rounded-xl'>
+                <h2 className='md:text-xl font-semibold md:font-bold md:py-3 text-blue-600'>{user.title}</h2>
+                <p className='text-sm text-gray-600 py-2 md:pb-5'>{user.feedback}</p>
+                <div className='md:flex justify-center md:justify-start pt-6 items-center gap-3'>
+                  <img className='w-8 md:w-12 h-8 md:h-12 object-cover rounded-full' src={user.image} alt="" />
                   <div>
-                    <h2>{user.name}</h2>
-                    <p>{user.position}</p>
+                    <h2 className='text-sm'>{user.name}</h2>
+                    <p className='text-sm'>{user.position}</p>
                   </div>
                 </div>
               </div>

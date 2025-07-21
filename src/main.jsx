@@ -17,6 +17,7 @@ import ApplyJob from './components/ApplyJob';
 import PrivateRoute from './Route/PrivateRoute';
 import MyApplications from './components/MyApplications';
 import MyJobPosts from './components/MyJobPosts';
+import Profile from './Pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register></Register>
+      },
+      {
+        path: 'userProfile',
+        element: <Profile></Profile>
       }
     ]
   },

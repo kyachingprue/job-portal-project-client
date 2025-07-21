@@ -6,7 +6,7 @@ import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
 const Register = () => {
-  const { createUsers, userProfileUpdate } = useContext(AuthContext)
+  const { createUsers, userProfileUpdate, googleSignIn } = useContext(AuthContext)
   const navigate = useNavigate();
 
   const handleRegister = event => {
@@ -48,13 +48,32 @@ const Register = () => {
         console.log("ERROR MESSAGE", error.message)
       })
   }
+
+  const handleGoogleRegister = () => {
+    googleSignIn()
+      .then(result => {
+        if (result.user) {
+          toast.success('🦄 User Register is Successfully!', {
+            position: "top-right",
+            autoClose: 2000,
+          })
+        }
+
+      })
+      .catch(error => {
+        console.log('User Google Register is failed', error.message)
+      })
+  }
   return (
     <div className='bg-base-200'>
-      <div className="flex w-10/12 mx-auto min-h-screen">
-        <div className='flex-1 mt-10 ml-5'>
+      <div className="md:flex w-10/12 mx-auto min-h-screen">
+        <div className='flex-1 pt-5 md:pt-10 mx-4 md:ml-5'>
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
             <div className="card-body">
-              <h2 className='py-5 text-3xl font-bold text-center'>Register Now</h2>
+              <h2 className='py-2 md:py-5 text-xl md:text-3xl font-bold text-center'>Register Now</h2>
+              <div className='my-3 mx-auto'>
+                <button onClick={handleGoogleRegister} className='btn btn-primary rounded-full'>Register with Google</button>
+              </div>
               <form onSubmit={handleRegister} className="fieldset">
                 <label className="label text-gray-800">Name</label>
                 <input type="text" className="input w-full" name='name' placeholder="Enter your name" />
@@ -70,8 +89,8 @@ const Register = () => {
             </div>
           </div>
         </div>
-        <div className='flex-1 mt-20'>
-          <Lottie className='w-[400px]' animationData={registerLottie}></Lottie>
+        <div className='flex-1 mt-7 md:mt-20'>
+          <Lottie className='md:w-[400px]' animationData={registerLottie}></Lottie>
         </div>
       </div>
     </div>

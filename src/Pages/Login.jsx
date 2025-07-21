@@ -4,10 +4,11 @@ import Lottie from 'lottie-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 
 const Login = () => {
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser, googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state || "/";
@@ -25,6 +26,13 @@ const Login = () => {
             position: "top-right",
             autoClose: 2000,
           })
+          const userEmail = {
+            email: email
+          }
+          axios.post('http://localhost:5000/jwt', userEmail, { withCredentials: true })
+            .then(res => {
+              console.log(res.data);
+            })
           form.reset()
           navigate(from)
         }
@@ -33,16 +41,35 @@ const Login = () => {
         console.log(error.message);
       })
   }
+
+  const googleLogin = () => {
+    googleSignIn()
+      .then(result => {
+        if (result.user) {
+          toast.success('🦄 User Login is Successfully!', {
+            position: "top-right",
+            autoClose: 2000,
+          })
+          navigate(from);
+        }
+      })
+      .catch(error => {
+        console.log("failed google sign in", error.message)
+      })
+  }
   return (
     <div className='bg-base-200'>
-      <div className="w-10/12 flex mx-auto justify-center min-h-screen">
-        <div className='flex-1 mt-10'>
-          <Lottie classID='w-[400px]' animationData={loginImg}></Lottie>
+      <div className="w-10/12 md:flex mx-auto justify-center min-h-screen">
+        <div className='md:flex-1 md:mt-10'>
+          <Lottie className='w-11/12 mx-auto md:w-[400px]' animationData={loginImg}></Lottie>
         </div>
-        <div className='flex-1 mt-28'>
+        <div className='flex-1 mt-10 md:mt-28'>
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
             <div className="card-body">
               <h2 className='text-3xl font-bold py-5 text-center'>Login Now</h2>
+              <div className='py-3 mx-auto'>
+                <button onClick={googleLogin} className='btn btn-primary text-sm rounded-full'>Login With Google</button>
+              </div>
               <form onSubmit={handleLogin} className="fieldset">
                 <label className="label text-gray-800">Email</label>
                 <input type="email" className="input w-full" name='email' placeholder="Email" required />

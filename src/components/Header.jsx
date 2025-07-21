@@ -9,28 +9,28 @@ import { FcViewDetails } from 'react-icons/fc';
 
 const Header = () => {
   return (
-    <div className='h-full flex justify-between items-center bg-sky-500/10'>
-      <div className=''>
-        <h3 className='text-5xl font-bold py-8 pl-4'>There Are <span className='text-blue-700'>93,178</span> Postings Here
+    <div className='h-full md:flex justify-between items-center bg-sky-500/10'>
+      <div className='mx-2'>
+        <h3 className='text-2xl md:text-5xl font-bold py-4 md:py-8 text-center md:text-start md:pl-4 text-black'>There Are <span className='text-blue-700'>93,178</span> Postings Here
           For you!</h3>
-        <p className='text-gray-500 pb-10 pl-4'>Find Jobs, Employment & Career Opportunities</p>
-        <div className='bg-white ml-4 px-5 py-8 w-full flex border rounded-xl border-gray-400 shadow-xl'>
+        <p className='text-gray-500 text-sm md:text-base pb-10 pl-4'>Find Jobs, Employment & Career Opportunities</p>
+        <div className='bg-white mx-2 md:mx-0 md:ml-4 px-2 md:px-5 py-2 md:py-8 md:w-full flex border rounded-xl border-gray-400 shadow-xl'>
           <div className='flex items-center w-full gap-2'>
-            <CiSearch className='text-black text-3xl' />
-            <input type="search" className='text-black w-full h-10 text-sm' placeholder='Job titles , keywords, or company' name="" id="text" />
+            <CiSearch className='text-black text-xl md:text-3xl' />
+            <input type="search" className='text-black w-full h-5 md:h-10 text-sm' placeholder='Job titles , keywords, or company' name="" id="text" />
           </div>
           <div className="divider divider-horizontal"></div>
           <div className='flex items-center gap-2'>
-            <CiLocationOn className='text-black text-3xl' />
-            <input type="search" name="" className='h-10 mr-2 text-sm' placeholder='City or postcode' id="" />
+            <CiLocationOn className='text-black text-xl md:text-3xl' />
+            <input type="search" name="" className='h-5 md:h-10 mr-0 md:mr-2 text-sm' placeholder='City or postcode' id="" />
           </div>
           <div className='w-full'>
-            <button className='bg-blue-800 py-4 text-white hover:bg-blue-900 rounded-xl w-full mx-auto'>Find Jobs</button>
+            <button className='bg-blue-800 py-2 md:py-4 text-white hover:bg-blue-900 rounded-xl w-full text-sm md:text-base mx-auto'>Find Jobs</button>
           </div>
         </div>
-        <p className='text-sm font-bold py-10 pl-4'>Popular Searches : <span className='text-sm font-normal text-gray-600 pl-4'>Designer, Developer, Web, IOS, PHP, Senior, Engineer,</span></p>
+        <p className='text-sm font-bold text-black py-10 pl-4'>Popular Searches : <span className='text-sm font-normal text-gray-600 pl-4'>Designer, Developer, Web, IOS, PHP, Senior, Engineer,</span></p>
       </div>
-      <div className='mx-auto'>
+      <div className='mx-auto hidden md:block'>
         <img className='relative' src={coverImg} alt="" />
         <div className='bg-white absolute top-40 rounded-xl p-2 w-56'>
           <div className='flex items-center gap-3'>

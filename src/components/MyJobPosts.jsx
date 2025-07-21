@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const MyJobPosts = () => {
   const { users } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleJobPost = event => {
     event.preventDefault();
@@ -13,7 +16,26 @@ const MyJobPosts = () => {
     newJob.salaryRange = { min, max, currency };
     newJob.requirements = newJob.requirements.split('\n');
     newJob.responsibilities = newJob.responsibilities.split('\n');
-    console.log(newJob);
+    // Data send to mongodb database
+    fetch('http://localhost:5000/jobs', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(newJob)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.insertedId) {
+          toast.success('🦄 My post Added is Successfully!', {
+            position: "top-right",
+            autoClose: 2000,
+          })
+
+          form.reset();
+          navigate('/jobs')
+        }
+      })
   }
 
   return (
