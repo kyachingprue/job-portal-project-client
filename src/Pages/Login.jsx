@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
 import loginImg from '../assets/images/login.json'
 import Lottie from 'lottie-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useContext } from 'react';
+import AuthContext from '../context/AuthContext';
 
 
 const Login = () => {

@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../assets/xing.png';
 import AuthContext from '../context/AuthContext';
 
 const Navbar = () => {
   const { users, signOutUser } = useContext(AuthContext);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const links = (
     <>
@@ -17,12 +18,16 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     signOutUser()
-      .then((result) => {
-        console.log(result.user);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+      .then(() => console.log("Signed out"))
+      .catch((error) => console.error(error.message));
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setDropdownOpen(false);
   };
 
   return (
@@ -50,21 +55,43 @@ const Navbar = () => {
       </div>
 
       {/* User Section */}
-      <div className="navbar-end">
+      <div className="navbar-end relative">
         {users ? (
-          <div className="relative group">
-            <div className='flex items-center justify-center gap-2'>
-              <h2 className='text-sm'>{users?.displayName}</h2>
-              <img className="w-10 h-10 rounded-full object-cover" src={users?.photoURL} alt="User" />
-            </div>
-            <ul className="hidden group-hover:block absolute top-12 right-0 bg-white shadow border rounded p-2 w-32 z-50">
-              <li><Link to="/userProfile" className="block px-2 py-1 hover:text-blue-600">Profile</Link></li>
-              <li><button onClick={handleSignOut} className="block px-2 py-1 hover:text-blue-600">Logout</button></li>
-            </ul>
+          <div className="flex items-center gap-2 md:gap-4 relative">
+            <h2 className="text-sm font-semibold text-black">{users.displayName}</h2>
+            <button onClick={toggleDropdown} className="flex items-center gap-2 focus:outline-none">
+              <img className="w-10 h-10 rounded-full object-cover" src={users.photoURL} alt="User" />
+            </button>
+            {dropdownOpen && (
+              <ul className="absolute top-14 right-0 bg-white border shadow rounded p-2 w-36 z-50">
+                <li>
+                  <Link
+                    to="/userProfile"
+                    onClick={closeDropdown}
+                    className="block px-2 py-1 hover:text-blue-600"
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      closeDropdown();
+                    }}
+                    className="block w-full text-left px-2 py-1 hover:text-blue-600"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            )}
           </div>
         ) : (
           <Link to="/login">
-            <button className="btn text-sm text-blue-600 bg-blue-100 hover:bg-blue-700 hover:text-white">Login / Register</button>
+            <button className="btn text-sm text-blue-600 bg-blue-100 hover:bg-blue-700 hover:text-white">
+              Login / Register
+            </button>
           </Link>
         )}
       </div>

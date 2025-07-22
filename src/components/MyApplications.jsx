@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import useAxiosSecure from '../context/useAxiosSecure';
 
 const MyApplications = () => {
   const { users } = useContext(AuthContext);
   const [jobs, setJobs] = useState([]);
+  const axiosSecure = useAxiosSecure();
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -41,18 +42,16 @@ const MyApplications = () => {
   }
 
   useEffect(() => {
-    // fetch(`http://localhost:5000/job-applications?email=${users.email}`)
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     setJobs(data);
+
+    // axios.get(`http://localhost:5000/job-applications?email=${users.email}`, { withCredentials: true })
+    //   .then(res => {
+    //     console.log(res.data);
+    //     setJobs(res.data);
     //   })
 
-    axios.get(`http://localhost:5000/job-applications?email=${users.email}`, { withCredentials: true })
-      .then(res => {
-        console.log(res.data);
-        setJobs(res.data);
-      })
-  }, [users.email])
+    axiosSecure.get(`/job-applications?email=${users.email}`)
+      .then(res => setJobs(res.data))
+  }, [axiosSecure, users.email])
 
   return (
     <div>
